@@ -8,22 +8,56 @@ class App extends React.Component{
   constructor( props ){
     super( props );
     this.state = {
-      /*
-        Your code goes here
-      */
+      libros = [],
+      errMensaje = ""
     }
   }
 
-  /* 
-    Your code goes here
-  */
+  submitBtnPressed = (event) => {
+    event.prenventDefault();
+    let settings = {
+      Method = "GET"
+    }
+    let url = `https://www.googleapis.com/books/v1/volumes?q=${event.target.nombreLibro.value}+intitle=${event.target.nombreLibro.value}`;
+
+    fetch(url, settings)
+      .then(response => {
+        if(response.ok){
+          return response.json()
+        }
+        else{
+          throw new Error(response.statusText)
+        }
+      })
+      .then(responseJson => {
+        if(responseJson.length <= 0){
+          this.setState({
+            libros: [],
+            errMensaje: `No hay libros con el nombre de ${event.target.nombreLibro.value}`
+          })
+        }
+        else{
+          this.setState({
+            libros : responseJson,
+            errMensaje : ""
+          })
+        }
+      })
+      .catch(err =>{
+        this.setState({
+          libros: [],
+          errMensaje = err.message
+        })
+      })
+  }
 
   render(){
     return(
       <div>
-        {/* 
-          Your code goes here
-        */}
+        <BookForm onSubmit={this.submitBtnPressed}/>
+        {
+          
+        }
       </div>
     )
   }

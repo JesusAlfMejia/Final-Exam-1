@@ -3,9 +3,11 @@ import React from 'react';
 function BookForm( props ){
     return(
         <div>
-            {/*
-                Your code goes here
-            */}
+            <form onSubmit={() => props.submitBtnPressed}>
+                <label>Ingrese el nombre del libro:</label>
+                <input type="text" name="nombreLibro" id="nombreLibro"/>
+                <button type="submit">Ver resultados</button>
+            </form>
         </div>
     );
 }
